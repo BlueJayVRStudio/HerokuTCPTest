@@ -10,13 +10,17 @@ from threading import Thread
 
 # app = Flask(__name__)
 
+## Hosted Rooms = { "room key" : { "player_n" : (socket_listener, socket_connection), }, }
+## Open Connections = { "room key" : [socket_connection_n] }
+rooms = {}
+
 def mainFunc(someString):
     print(someString)
 
-def ListenHandler(Connection, func):
+def ListenHandler(Connection, Rooms, func):
     while (True):
         try:
-            data = Connection.recv(1024)
+            data = Connection.recv(5)
         except:
             print("player disconnected :( very very sad")
             break
@@ -37,7 +41,7 @@ def socketThread():
     connection, client_address = s.accept()
     print(client_address)
 
-    thread1 = Thread(target=ListenHandler, args=(connection, mainFunc,))
+    thread1 = Thread(target=ListenHandler, args=(connection, rooms, mainFunc,))
     thread1.start()
 
     while (True):
