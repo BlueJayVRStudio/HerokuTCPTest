@@ -15,7 +15,7 @@ def socketThread():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # Bind the socket to a specific network interface and port number
-    s.bind(('localhost', 1234))
+    s.bind(('localhost', 8080))
 
     # Listen for incoming connections
     s.listen(5)
