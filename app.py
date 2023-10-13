@@ -29,12 +29,12 @@ def socketThread():
         connection, client_address = s.accept()
         print(client_address)
         # Send and receive data
-        # connection.send('Hello, world!'.encode())
-        # data = connection.recv(1024)
-        # print(data.decode())
+        connection.send('Hello, world!'.encode())
+        data = connection.recv(1024)
+        print(data.decode())
 
         # # Close the socket
-        # connection.close()
+        connection.close()
 # t1 = Thread(target=socketThread, args=())
 # t1.start()
 
