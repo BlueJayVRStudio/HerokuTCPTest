@@ -10,6 +10,12 @@ from threading import Thread
 
 # app = Flask(__name__)
 
+def mainFunc(someString):
+    print(someString)
+
+def ListenHandler(Connection, func):
+    func(Connection.recv(1024))
+
 def socketThread():
     # Create a socket object
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,25 +26,18 @@ def socketThread():
     # Listen for incoming connections
     s.listen(5)
 
-    counter = 100
-    print("hello world! we are now starting a TCP server!")
+    # Accept an incoming connection
+    connection, client_address = s.accept()
+    print(client_address)
+
+    thread1 = Thread(target=ListenHandler, args=(s, mainFunc,))
+    thread1.start()
+
     while (True):
-        print("this is the loop")
-        counter -= 1
-        # Accept an incoming connection
-        connection, client_address = s.accept()
-        print(client_address)
-        # # Send and receive data
-        # connection.send('Hello, world!'.encode())
-        # data = connection.recv(1024)
+        s.send(input().encode()) 
 
-        # # Start a Send thread and a Receive thread
-
-
-        # print(data.decode())
-
-        # # # Close the socket
-        connection.close()
+    connection.close()
+    
 # # t1 = Thread(target=socketThread, args=())
 # # t1.start()
 
