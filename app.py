@@ -64,7 +64,7 @@ while True:
   connection, client_address = s.accept()
   print(client_address)
   data = connection.recv(1024)
-  
+
   data1, client_address1 = server_socket.recvfrom(1024)
 
 #   # Print the message
@@ -73,7 +73,7 @@ while True:
 
   # Send a response back to the client
   connection.send("sending back a message".encode())
-  server_socket.sendto("Received!".encode(), client_address)
+  server_socket.sendto("Received!".encode(), client_address1)
 
 
 
