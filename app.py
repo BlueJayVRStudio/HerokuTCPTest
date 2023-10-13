@@ -48,7 +48,7 @@ from threading import Thread
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Bind the socket to a specific address and port
-server_socket.bind(("147.182.204.67", 5001))
+server_socket.bind(("147.182.204.67", 5000))
 
 # Create a socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
