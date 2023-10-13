@@ -35,21 +35,25 @@ def socketThread():
 
         # # Close the socket
         # connection.close()
-# t1 = Thread(target=socketThread, args=())
-# t1.start()
+t1 = Thread(target=socketThread, args=())
+t1.start()
 
-socketThread()
+# socketThread()
 
-# @app.route("/", methods=["POST", "GET"])
-# def main():
-#     input_text = request.form.get("user_input", "")
-#     input_text1 = request.form.get("user_input1", "")
+@app.route("/", methods=["POST", "GET"])
+def main():
+    input_text = request.form.get("user_input", "")
+    input_text1 = request.form.get("user_input1", "")
 
-#     return "hehehehe"
+    return "hehehehe"
 
-#     return f"You entered: {input_text} AND {input_text1}!"
+    return f"You entered: {input_text} AND {input_text1}!"
 
-# if __name__ == "__main__":
-#     # localhost
-#     app.run(host= '0.0.0.0', port=5000, debug=False)
+@app.route("/healthcheck", methods=["GET"])
+def healthcheck():
+    return "healthy"
+
+if __name__ == "__main__":
+    # localhost
+    app.run(host= '0.0.0.0', port=5100, debug=False)
 
