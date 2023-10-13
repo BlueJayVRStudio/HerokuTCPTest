@@ -8,7 +8,7 @@ import socket
 import time
 from threading import Thread
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
 def socketThread():
     # Create a socket object
@@ -21,31 +21,35 @@ def socketThread():
     s.listen(5)
 
     counter = 100
+    print("hello world! we are now starting a TCP server!")
     while (True):
+        print("this is the loop")
         counter -= 1
         # Accept an incoming connection
         connection, client_address = s.accept()
         print(client_address)
         # Send and receive data
-        connection.send('Hello, world!'.encode())
-        data = connection.recv(1024)
-        print(data.decode())
+        # connection.send('Hello, world!'.encode())
+        # data = connection.recv(1024)
+        # print(data.decode())
 
-        # Close the socket
-        connection.close()
+        # # Close the socket
+        # connection.close()
 # t1 = Thread(target=socketThread, args=())
 # t1.start()
 
 socketThread()
 
-# @app.route("/", methods=["POST"])
+# @app.route("/", methods=["POST", "GET"])
 # def main():
 #     input_text = request.form.get("user_input", "")
 #     input_text1 = request.form.get("user_input1", "")
+
+#     return "hehehehe"
 
 #     return f"You entered: {input_text} AND {input_text1}!"
 
 # if __name__ == "__main__":
 #     # localhost
-#     app.run(host= '192.168.1.115', port=5000, debug=False)
+#     app.run(host= '0.0.0.0', port=5000, debug=False)
 
