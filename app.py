@@ -15,7 +15,7 @@ def mainFunc(someString):
 
 def ListenHandler(Connection, func):
     while (True):
-        func(Connection.recv(1).decode())
+        func("Client: " + Connection.recv(1024).decode())
 
 def socketThread():
     # Create a socket object
