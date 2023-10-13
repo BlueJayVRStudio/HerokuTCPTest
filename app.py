@@ -55,5 +55,5 @@ def healthcheck():
 
 if __name__ == "__main__":
     # localhost
-    app.run(host= '0.0.0.0', port=5100, debug=False)
+    app.run(host= '0.0.0.0', port=8080, debug=False)
 
