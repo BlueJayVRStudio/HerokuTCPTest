@@ -72,7 +72,7 @@ while True:
   print("Received message from {}: {}".format(client_address1, data1))
 
   # Send a response back to the client
-  s.send("sending back a message".encode())
+  connection.send("sending back a message".encode())
   server_socket.sendto("Received!".encode(), client_address)
 
 
