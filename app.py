@@ -17,6 +17,7 @@ def ListenHandler(Connection, func):
     while (True):
         data = Connection.recv(1024)
         if not data:
+            print("connection broken very very sad :(")
             Connection.close()
             break
         func("Client: " + data.decode())
