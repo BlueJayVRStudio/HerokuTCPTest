@@ -15,11 +15,12 @@ def mainFunc(someString):
 
 def ListenHandler(Connection, func):
     while (True):
-        data = Connection.recv(1024)
-        if not data:
-            print("connection broken very very sad :(")
-            Connection.close()
+        try:
+            data = Connection.recv(1024)
+        except:
+            print("player disconnected :( very very sad")
             break
+        
         func("Client: " + data.decode())
 
 def socketThread():
