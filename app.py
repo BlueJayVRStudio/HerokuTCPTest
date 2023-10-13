@@ -14,7 +14,7 @@ def mainFunc(someString):
     print(someString)
 
 def ListenHandler(Connection, func):
-    func(Connection.recv(1024))
+    func(Connection.recv(1024).decode())
 
 def socketThread():
     # Create a socket object
@@ -30,11 +30,11 @@ def socketThread():
     connection, client_address = s.accept()
     print(client_address)
 
-    thread1 = Thread(target=ListenHandler, args=(s, mainFunc,))
+    thread1 = Thread(target=ListenHandler, args=(connection, mainFunc,))
     thread1.start()
 
     while (True):
-        s.send(input().encode()) 
+        connection.send(input().encode()) 
 
     connection.close()
     
