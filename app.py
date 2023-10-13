@@ -50,12 +50,25 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # Bind the socket to a specific address and port
 server_socket.bind(("147.182.204.67", 5000))
 
+# Create a socket object
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Bind the socket to a specific network interface and port number
+s.bind(('147.182.204.67', 5001))
+
+# Listen for incoming connections
+s.listen(5)
+
 # Listen for messages
 while True:
-  # Receive a message from the client
-  data, client_address = server_socket.recvfrom(1024)
+  connection, client_address = s.accept()
+  print(client_address)
+  data = connection.recv(1024)
+  
+#   # Receive a message from the client
+#   data, client_address = server_socket.recvfrom(1024)
 
-  # Print the message
+#   # Print the message
   print("Received message from {}: {}".format(client_address, data))
 
   # Send a response back to the client
