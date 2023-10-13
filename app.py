@@ -65,11 +65,11 @@ while True:
   print(client_address)
   data = connection.recv(1024)
   
-#   # Receive a message from the client
-#   data, client_address = server_socket.recvfrom(1024)
+  data1, client_address1 = server_socket.recvfrom(1024)
 
 #   # Print the message
   print("Received message from {}: {}".format(client_address, data))
+  print("Received message from {}: {}".format(client_address1, data1))
 
   # Send a response back to the client
   server_socket.sendto("Received!".encode(), client_address)
