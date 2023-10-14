@@ -40,10 +40,10 @@ def handle_connections():
         player = Player(None, None, None).from_json(data1)
         with rooms_lock:
             if player.room_key not in rooms:
-                connection.send("could not join the room, please try again")
+                connection.send("could not join the room, please try again".encode())
                 continue
 
-            connection.send(rooms[player.room_key].connect_player(player.username, connection))
+            connection.send(rooms[player.room_key].connect_player(player.username, connection).encode())
 
 _target = handle_connections
 t1 = Thread(target=_target, args=())
