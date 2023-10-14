@@ -58,7 +58,7 @@ class RoomContext:
                 "player diconnected :("
                 break
             data1 = data.decode()
-            player_message = Message(None, None).from_json(json.loads(data1))
+            player_message = Message(None, None).from_json(data1)
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
