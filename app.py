@@ -4,102 +4,85 @@ import requests
 import json
 from flask import Flask, request, render_template
 
+import os
+
 import socket
 import time
 from threading import Thread
+from threading import Lock
 
-# app = Flask(__name__)
+from room_context import RoomContext
+from room_context import Player
+from room_context import Message
 
-## Hosted Rooms = { "room key" : { "player_n" : (socket_listener, socket_connection), }, }
-## Open Connections = { "room key" : [socket_connection_n] }
-rooms = {}
+app = Flask(__name__)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_addr = os.getenv('SERVER_ADDR')
+s.bind((server_addr, 5000))
+s.listen(5)
 
-def mainFunc(someString):
-    print(someString)
+## Hosted Rooms = { "room key" : room context }
+rooms = { }
+rooms_lock = Lock()
+## Waiting connections = { "room key" : connection }
+connections = { }
 
-def ListenHandler(Connection, Rooms, func):
+def handle_connections():
     while (True):
+        connection, client_address = s.accept()
+        print(client_address)
         try:
-            data = Connection.recv(5)
+            data = connection.recv(1024)
         except:
-            print("player disconnected :( very very sad")
-            break
-        
-        func("Client: " + data.decode())
+            print(f"could not connect player from {client_address}")
+            continue
+        data1 = data.decode()
+        player = json.loads(data1)
+        with rooms_lock:
+            if player.room_key not in rooms:
+                connection.send("could not join the room, please try again")
+                continue
 
-def socketThread():
-    # Create a socket object
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            connection.send(rooms[player.room_key].connect_player(player.username, connection))
 
-    # Bind the socket to a specific network interface and port number
-    s.bind(('147.182.204.67', 5000))
+_target = handle_connections
+t1 = Thread(target=_target, args=())
+t1.daemon = True
+t1.start()
 
-    # Listen for incoming connections
-    s.listen(5)
-
-    # Accept an incoming connection
-    connection, client_address = s.accept()
-    print(client_address)
-
-    thread1 = Thread(target=ListenHandler, args=(connection, rooms, mainFunc,))
-    thread1.start()
-
-    while (True):
-        connection.send(input().encode()) 
-
-    connection.close()
-    
-# # t1 = Thread(target=socketThread, args=())
-# # t1.start()
-
-socketThread()
-
-# # Create a UDP socket
-# server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-# # Bind the socket to a specific address and port
-# server_socket.bind(("147.182.204.67", 5001))
-
-# # Create a socket object
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# # Bind the socket to a specific network interface and port number
-# s.bind(('147.182.204.67', 5000))
-
-# # Listen for incoming connections
-# s.listen(5)
-
-# # Listen for messages
-# while True:
-#   connection, client_address = s.accept()
-#   print(client_address)
-#   data = connection.recv(1024)
-
-#   data1, client_address1 = server_socket.recvfrom(1024)
-
-#   print("Received message from {}: {}".format(client_address, data))
-#   print("Received message from {}: {}".format(client_address1, data1))
-
-#   # Send a response back to the client
-#   connection.send("sending back a message".encode())
-#   server_socket.sendto("Received!".encode(), client_address1)
-
-
-
-# @app.route("/", methods=["POST", "GET"])
+# @app.route("/", methods=["POST"])
 # def main():
-#     input_text = request.form.get("user_input", "")
-#     input_text1 = request.form.get("user_input1", "")
+#     room_key = request.form.get("room_key", "")
+#     username = request.form.get("username", "")
+#     password = request.form.get("password", "")
 
-#     return "hehehehe"
+#     if "room_key" not in rooms:
+#         return "room not available"
 
-#     return f"You entered: {input_text} AND {input_text1}!"
+#     if rooms[room_key].room_dead:
+#         return "room expired"
+#     else: 
+#         if not rooms[room_key].started:
+#             target = rooms[room_key].room_loop
+#             room_thread = Thread(target=target, args=())
+#             room_thread.daemon = True
+#             room_thread.start()
+        
+#         rooms[room_key].queue.put(Player(room_key,username,password))
+    
+#     return "connecting..."
 
-# @app.route("/healthcheck", methods=["GET"])
-# def healthcheck():
-#     return "healthy"
+@app.route("/genkey", methods=["GET"])
+def generate_key():
+    with rooms_lock:
+        key = "demoKey"
+        while key in rooms:
+            key = "demoKey"
+        rooms[key] = RoomContext()
+    time.sleep(0.05)
+    return key
 
-# if __name__ == "__main__":
-#     # localhost
-#     app.run(host= '0.0.0.0', port=5100, debug=False)
+if __name__ == "__main__":
+    # localhost
+    app.run(host= '''this host's name''', port=5100, debug=False)
 
