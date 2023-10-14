@@ -70,7 +70,7 @@ class RoomContext:
         if username in self.players:
             return "user name already taken"
         
-        _target = Thread(target=self.ListenHandler, args=(Connection))
+        _target = Thread(target=self.ListenHandler, args=(Connection,))
         _target.daemon = True
         _target.start()
 
