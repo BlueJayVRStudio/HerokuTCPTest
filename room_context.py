@@ -39,6 +39,7 @@ class Message:
         return _json
     
     def from_json(self, _json):
+        print(_json)
         loaded = json.loads(_json)
         self.username = loaded['username']
         self.message = loaded['message']
