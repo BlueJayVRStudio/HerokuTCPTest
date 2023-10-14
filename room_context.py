@@ -42,6 +42,7 @@ class Message:
         loaded = json.loads(_json)
         self.username = loaded['username']
         self.message = loaded['message']
+        return self
 
 class RoomContext:
     def __init__(self):
