@@ -37,7 +37,7 @@ def handle_connections():
             print(f"could not connect player from {client_address}")
             continue
         data1 = data.decode()
-        player = json.loads(data1)
+        player = Player.from_json(json.loads(data1))
         with rooms_lock:
             if player.room_key not in rooms:
                 connection.send("could not join the room, please try again")

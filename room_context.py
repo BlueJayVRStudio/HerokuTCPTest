@@ -24,6 +24,7 @@ class Player:
         self.room_key = loaded['room_key']
         self.username = loaded['username']
         self.password = loaded['password']
+        return self
 
 class Message:
     def __init__(self, username, message):
