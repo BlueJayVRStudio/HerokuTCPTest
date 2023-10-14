@@ -11,11 +11,36 @@ class Player:
         self.room_key = room_key
         self.username = username
         self.password = password
+    def to_json(self):
+        _json = {
+            'room_key' : self.room_key,
+            'username' : self.username,
+            'password' : self.password
+        }
+        return _json
+    
+    def from_json(self, _json):
+        loaded = json.loads(_json)
+        self.room_key = loaded['room_key']
+        self.username = loaded['username']
+        self.password = loaded['password']
 
 class Message:
     def __init__(self, username, message):
         self.username = username
         self.message = message
+    
+    def to_json(self):
+        _json = {
+            'username' : self.username,
+            'message' : self.message
+        }
+        return _json
+    
+    def from_json(self, _json):
+        loaded = json.loads(_json)
+        self.username = loaded['username']
+        self.message = loaded['message']
 
 class RoomContext:
     def __init__(self):
@@ -32,7 +57,7 @@ class RoomContext:
                 "player diconnected :("
                 break
             data1 = data.decode()
-            player_message = json.loads(data1)
+            player_message = Message.from_json(json.loads(data1))
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
