@@ -84,5 +84,5 @@ def generate_key():
 
 if __name__ == "__main__":
     # localhost
-    app.run(host= '''this host's name''', port=5100, debug=False)
+    app.run(host=server_addr, port=5100, debug=False)
 
