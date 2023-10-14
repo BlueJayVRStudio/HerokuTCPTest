@@ -43,7 +43,7 @@ def handle_connections():
                 connection.send("could not join the room, please try again".encode())
                 continue
 
-            connection.send(rooms[player.room_key].connect_player(player.username, connection).encode())
+            connection.send((rooms[player.room_key].connect_player(player.username, connection)).encode())
 
 _target = handle_connections
 t1 = Thread(target=_target, args=())
