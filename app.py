@@ -36,7 +36,9 @@ def handle_connections():
         except:
             print(f"could not connect player from {client_address}")
             continue
-        data1 = data.decode()
+        data1 = data.decode("utf-8")
+        print(f"Handshake message: {data1}")
+
         player = Player(None, None, None).from_json(data1)
         print(player.room_key + " hello world!")
         with rooms_lock:
