@@ -65,6 +65,7 @@ class RoomContext:
                 player_message = Message(None, None).from_json(data1)
             except:
                 print("error handling message. disconnecting player...")
+                break
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
