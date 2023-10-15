@@ -39,7 +39,7 @@ class Message:
         return _json
     
     def from_json(self, _json):
-        print(_json)
+        # print(_json)
         loaded = json.loads(_json)
         self.username = loaded['username']
         self.message = loaded['message']
@@ -59,8 +59,8 @@ class RoomContext:
             except:
                 print("player diconnected :(")
                 break
-            data1 = data.decode("utf-8")
-            print(data1)
+            data1 = data.decode()
+            # print(data1)
             try:
                 player_message = Message(None, None).from_json(data1)
             except:

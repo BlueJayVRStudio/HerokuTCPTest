@@ -36,7 +36,7 @@ def handle_connections():
         except:
             print(f"could not connect player from {client_address}")
             continue
-        data1 = data.decode("utf-8")
+        data1 = data.decode()
         print(f"Handshake message: {data1}")
 
         try:
