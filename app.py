@@ -43,15 +43,15 @@ def handle_connections():
             player = Player(None, None, None).from_json(data1)
         except:
             print("json error!")
-            connection.send("client did not send correct json format".encode("utf-8"))
+            connection.send("client did not send correct json format".encode())
             continue
         print(player.room_key + " hello world!")
         with rooms_lock:
             if player.room_key not in rooms:
-                connection.send("could not join the room, please try again".encode("utf-8"))
+                connection.send("could not join the room, please try again".encode())
                 continue
 
-            connection.send(rooms[player.room_key].connect_player(player.username, connection).encode("utf-8"))
+            connection.send(rooms[player.room_key].connect_player(player.username, connection).encode())
 
 _target = handle_connections
 t1 = Thread(target=_target, args=())
