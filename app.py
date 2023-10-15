@@ -44,6 +44,7 @@ def handle_connections():
         except:
             print("json error!")
             connection.send("client did not send correct json format".encode("utf-8"))
+            continue
         print(player.room_key + " hello world!")
         with rooms_lock:
             if player.room_key not in rooms:
