@@ -57,11 +57,14 @@ class RoomContext:
             try:
                 data = Connection.recv(1024)
             except:
-                "player diconnected :("
+                print("player diconnected :(")
                 break
             data1 = data.decode("utf-8")
             print(data1)
-            player_message = Message(None, None).from_json(data1)
+            try:
+                player_message = Message(None, None).from_json(data1)
+            except:
+                print("error handling message. disconnecting player...")
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
