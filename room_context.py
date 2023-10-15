@@ -59,14 +59,14 @@ class RoomContext:
             except:
                 "player diconnected :("
                 break
-            data1 = data.decode()
+            data1 = data.decode("utf-8")
             player_message = Message(None, None).from_json(data1)
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
                         connection.send(data)
 
-            # func("Server: " + data.decode())
+            # func("Server: " + data.decode("utf-8"))
     
     def connect_player(self, username, Connection):
         if username in self.players:

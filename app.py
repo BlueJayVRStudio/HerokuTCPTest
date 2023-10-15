@@ -39,14 +39,18 @@ def handle_connections():
         data1 = data.decode("utf-8")
         print(f"Handshake message: {data1}")
 
-        player = Player(None, None, None).from_json(data1)
+        try:
+            player = Player(None, None, None).from_json(data1)
+        except:
+            print("json error!")
+            connection.send("client did not send correct json format".encode("utf-8"))
         print(player.room_key + " hello world!")
         with rooms_lock:
             if player.room_key not in rooms:
-                connection.send("could not join the room, please try again".encode())
+                connection.send("could not join the room, please try again".encode("utf-8"))
                 continue
 
-            connection.send(rooms[player.room_key].connect_player(player.username, connection).encode())
+            connection.send(rooms[player.room_key].connect_player(player.username, connection).encode("utf-8"))
 
 _target = handle_connections
 t1 = Thread(target=_target, args=())
