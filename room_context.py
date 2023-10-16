@@ -69,7 +69,14 @@ class RoomContext:
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
-                        connection.send(data)
+                        # connection.send(data)
+                        try:
+                            sendThread = Thread(target=connection.send, args=(data,))
+                            sendThread.daemon = True
+                            sendThread.start()
+                        except:
+                            pass
+
 
             # func("Server: " + data.decode("utf-8"))
     
