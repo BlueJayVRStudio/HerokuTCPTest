@@ -60,7 +60,7 @@ class RoomContext:
                 print("player diconnected :(")
                 break
             data1 = data.decode()
-            # print(data1)
+            print(data1)
             try:
                 player_message = Message(None, None).from_json(data1)
             except:
