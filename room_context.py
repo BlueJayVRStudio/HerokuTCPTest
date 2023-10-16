@@ -76,6 +76,7 @@ class RoomContext:
                             sendThread.daemon = True
                             sendThread.start()
                         except:
+                            print(username)
                             toRemove.append(username)
                 for username in toRemove:
                     players.pop("username")
