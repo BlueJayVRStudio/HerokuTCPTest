@@ -52,11 +52,13 @@ class RoomContext:
         self.lock = Lock()
         
     
-    def ListenHandler(self, Connection):
+    def ListenHandler(self, Connection, Username):
         while (True):
             try:
                 data = Connection.recv(1024)
             except:
+                with self.lock:
+                    self.players.pop(Username)
                 print("player diconnected :(")
                 break
             data1 = data.decode()
@@ -64,22 +66,17 @@ class RoomContext:
             try:
                 player_message = Message(None, None).from_json(data1)
             except:
+                with self.lock:
+                    self.players.pop(Username)
                 print("error handling message. disconnecting player...")
                 break
             with self.lock:
-                toRemove = []
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
                         # connection.send(data)
-                        try:
-                            sendThread = Thread(target=connection.send, args=(data,))
-                            sendThread.daemon = True
-                            sendThread.start()
-                        except:
-                            print(username)
-                            toRemove.append(username)
-                for username in toRemove:
-                    players.pop("username")
+                        sendThread = Thread(target=connection.send, args=(data,))
+                        sendThread.daemon = True
+                        sendThread.start()
 
 
             # func("Server: " + data.decode("utf-8"))
@@ -88,7 +85,7 @@ class RoomContext:
         if username in self.players:
             return "user name already taken"
         
-        _target = Thread(target=self.ListenHandler, args=(Connection,))
+        _target = Thread(target=self.ListenHandler, args=(Connection, uesrname, ))
         _target.daemon = True
         _target.start()
 
