@@ -50,8 +50,10 @@ def handle_connections():
             if player.room_key not in rooms:
                 connection.send("could not join the room, please try again".encode())
                 continue
-
+        try:
             connection.send(rooms[player.room_key].connect_player(player.username, connection).encode())
+        except:
+            pass
 
 _target = handle_connections
 t1 = Thread(target=_target, args=())
