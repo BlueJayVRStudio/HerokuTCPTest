@@ -1,0 +1,3 @@
+Weekend project #?: Keycode based chatroom for Unity. Custom TCP/IP networking solution written in Python as a fan-out relay server along with a Flask RestAPI server (not really doing much yet other than game room key generation (supposedly...), but I'm sure it'll *serve* a purpose). The server was tested by deploying to DigitalOcean VM (not sure if I can expose multiple ports if I deploy as containers, and the alternative for me personally is spending $10-$15 per day on GKE and not even utilizing Kubernetes). DigitalOcean droplets are $6 a month with the lowest specs. Much wow.
+
+Unity project will be uploaded after some tidying up, hopefully with more details or a tutorial.
