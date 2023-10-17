@@ -38,8 +38,14 @@ def handle_connections():
         except:
             print(f"could not connect player from {client_address}")
             continue
-        data1 = data.decode()
-        print(f"Handshake message: {data1}")
+
+        try:
+            data1 = data.decode()
+            print(f"Handshake message: {data1}")
+        except:
+            print("error decoding json :( ")
+            connection.send("please send proper json format".encode())
+            continue
 
         try:
             player = Player(None, None, None).from_json(data1)
