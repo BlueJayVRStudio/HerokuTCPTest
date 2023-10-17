@@ -16,14 +16,15 @@ from room_context import Player
 from room_context import Message
 
 app = Flask(__name__)
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # server_addr = os.getenv('SERVER_ADDR')
-server_addr = "127.0.0.1"
-s.bind((server_addr, 5000))
+server_addr = "0.0.0.0"
+s.bind((server_addr, 5001))
 s.listen(5)
 
 ## Hosted Rooms = { "room key" : room context }
-rooms = { }
+rooms = { "demoKey" : RoomContext() }
 rooms_lock = Lock()
 ## Waiting connections = { "room key" : connection }
 connections = { }
@@ -58,8 +59,9 @@ def handle_connections():
 
 _target = handle_connections
 t1 = Thread(target=_target, args=())
-t1.daemon = True
+# t1.daemon = True
 t1.start()
+print("running socket thread")
 
 # @app.route("/", methods=["POST"])
 # def main():
@@ -83,19 +85,21 @@ t1.start()
     
 #     return "connecting..."
 
-@app.route("/genkey", methods=["GET"])
-def generate_key():
-    with rooms_lock:
-        key = "demoKey"
-        while key in rooms:
-            key = "demoKey"
-        rooms[key] = RoomContext()
-    time.sleep(0.05)
-    return key
+# @app.route("/genkey", methods=["GET"])
+# def generate_key():
+#     with rooms_lock:
+#         key = "demoKey"
+#         while key in rooms:
+#             key = "demoKey"
+#         rooms[key] = RoomContext()
+#     time.sleep(0.05)
+#     print("generated!")
+#     return key
 
 @app.route("/health-check", methods=["GET"])
 def health_check():
-    return "healthy?"
+    print("healthy")
+    return "healthy?", 200
 
 if __name__ == "__main__":
     # localhost

@@ -42,8 +42,8 @@ USER appuser
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 5000 5100
+EXPOSE 5001 5100
 
 # Run the application.
-# CMD python app.py
-CMD gunicorn 'app:app' --bind=0.0.0.0:5100 --threads 10
+CMD python app.py
+# CMD gunicorn 'app:app' --bind=0.0.0.0:5100 --threads 10
