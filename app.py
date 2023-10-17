@@ -94,7 +94,7 @@ def generate_key():
     return key
 
 @app.route("/health-check", methods=["GET"])
-def generate_key():
+def health_check():
     return "healthy?"
 
 if __name__ == "__main__":
