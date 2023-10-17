@@ -93,6 +93,10 @@ def generate_key():
     time.sleep(0.05)
     return key
 
+@app.route("/health-check", methods=["GET"])
+def generate_key():
+    return "healthy?"
+
 if __name__ == "__main__":
     # localhost
     app.run(host="127.0.0.1", port=5100, debug=False)
