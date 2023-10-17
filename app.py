@@ -17,7 +17,8 @@ from room_context import Message
 
 app = Flask(__name__)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_addr = os.getenv('SERVER_ADDR')
+# server_addr = os.getenv('SERVER_ADDR')
+server_addr = "127.0.0.1"
 s.bind((server_addr, 5000))
 s.listen(5)
 
@@ -94,5 +95,5 @@ def generate_key():
 
 if __name__ == "__main__":
     # localhost
-    app.run(host=server_addr, port=5100, debug=False)
+    app.run(host="127.0.0.1", port=5100, debug=False)
 
