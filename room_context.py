@@ -73,21 +73,19 @@ class RoomContext:
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
-                        # connection.send(data)
-                        sendThread = Thread(target=connection.send, args=(data,))
-                        sendThread.daemon = True
-                        sendThread.start()
+                        connection.send(data)
 
 
             # func("Server: " + data.decode("utf-8"))
     
     def connect_player(self, username, Connection):
-        if username in self.players:
-            return "user name already taken"
-        
-        _target = Thread(target=self.ListenHandler, args=(Connection, username, ))
-        _target.daemon = True
-        _target.start()
+        with self.lock:
+            if username in self.players:
+                return "user name already taken"
+            
+            _target = Thread(target=self.ListenHandler, args=(Connection, username, ))
+            _target.daemon = True
+            _target.start()
 
-        self.players[username] = (_target, Connection)
-        return "success"
+            self.players[username] = (_target, Connection)
+            return "success"
