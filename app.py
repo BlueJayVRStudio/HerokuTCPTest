@@ -53,7 +53,7 @@ def handle_connections():
             print("json error!")
             connection.send("client did not send correct json format".encode())
             continue
-        print(player.room_key + " hello world!")
+        # print(player.room_key + " hello world!")
         with rooms_lock:
             if player.room_key not in rooms:
                 connection.send("could not join the room, please try again".encode())
@@ -109,5 +109,5 @@ def health_check():
 
 if __name__ == "__main__":
     # localhost
-    app.run(host="127.0.0.1", port=5100, debug=False)
+    app.run(host="0.0.0.0", port=5100, debug=False)
 

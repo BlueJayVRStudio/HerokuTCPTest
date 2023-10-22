@@ -73,6 +73,7 @@ class RoomContext:
             with self.lock:
                 for username, (_target, connection) in self.players.items():
                     if username != player_message.username:
+                        # this probably needs error handling. If can't send, pop the player to whom this thread is trying to send data.
                         connection.send(data)
 
 
